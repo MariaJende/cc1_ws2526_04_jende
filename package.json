@@ -1,0 +1,23 @@
+{
+  "name": "cc1_ws2526_04_jende_03",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Maria Jende",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "three": "^0.182.0"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "vite": "^7.3.1"
+  }
+}

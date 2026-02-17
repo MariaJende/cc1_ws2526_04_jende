@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 // -------------------------------------
 // Scene Setup
@@ -13,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   400
 );
-camera.position.z = 5;
+//camera.position.z = 5;
 
 const canvas = document.querySelector("#canvasThree");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -132,6 +133,16 @@ const pathMaterial = new THREE.MeshPhysicalMaterial({
 });
 
 scene.add(new THREE.Mesh(pathGeometry, pathMaterial));
+
+
+const gltfLoader = new GLTFLoader();
+
+gltfLoader.load("/3Dobjects/SakuraFlower.glb", (gltf) => {
+  const model = gltf.scene;
+  model.scale.set(20, 20, 20);
+  model.position.set(0, 0, 0);
+  scene.add(model);
+});
 
 // -------------------------------------
 // Scrolling

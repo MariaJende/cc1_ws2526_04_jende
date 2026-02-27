@@ -1,3 +1,5 @@
+// Background HDR: Qwantani Dawn (Pure Sky) by Greeg Zaal and Jarod Guest - https://polyhaven.com/a/qwantani_dawn_puresky
+
 import * as THREE from "three";
 import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";

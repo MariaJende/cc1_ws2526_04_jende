@@ -2,7 +2,7 @@
 
 import * as THREE from "three";
 import { HDRLoader } from "three/addons/loaders/HDRLoader.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
 
 // -------------------------------------
 // Scene Setup
@@ -23,6 +23,7 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+
 // -------------------------------------
 // HDR Background
 // -------------------------------------
@@ -33,6 +34,7 @@ hdrLoader.load("/textures/qwantani_dawn_puresky_1k.hdr", (hdr) => {
   scene.background = hdr;
   scene.environment = hdr;
 });
+
 
 // -------------------------------------
 // Path
@@ -54,6 +56,7 @@ for (let i = 0; i <= segments; i++) {
 
 const curve = new THREE.CatmullRomCurve3(points);
 
+
 // -------------------------------------
 // Rectangular Cross Section
 // -------------------------------------
@@ -65,6 +68,7 @@ shape.lineTo(2, 0.125);
 shape.lineTo(-2, 0.125);
 shape.closePath();
 
+
 // -------------------------------------
 // Extruded Geometry
 // -------------------------------------
@@ -74,6 +78,11 @@ const pathGeometry = new THREE.ExtrudeGeometry(shape, {
   extrudePath: curve,
   bevelEnabled: false
 });
+
+
+// -------------------------------------
+// Path Material
+// -------------------------------------
 
 const pathMaterial = new THREE.MeshPhysicalMaterial({
   color: 0xffffff,
@@ -90,15 +99,6 @@ const pathMaterial = new THREE.MeshPhysicalMaterial({
 scene.add(new THREE.Mesh(pathGeometry, pathMaterial));
 
 
-const gltfLoader = new GLTFLoader();
-
-gltfLoader.load("/3Dobjects/SakuraFlower.glb", (gltf) => {
-  const model = gltf.scene;
-  model.scale.set(20, 20, 20);
-  model.position.set(0, 0, 0);
-  scene.add(model);
-});
-
 // -------------------------------------
 // Scrolling
 // -------------------------------------
@@ -111,6 +111,7 @@ window.addEventListener("scroll", () => {
   progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
   progress = THREE.MathUtils.clamp(progress, 0, 1);
 });
+
 
 // -------------------------------------
 // Animation Loop
@@ -130,6 +131,7 @@ function animate() {
 }
 
 animate();
+
 
 // -------------------------------------
 // Resize

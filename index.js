@@ -26,58 +26,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // -------------------------------------
 
 const hdrLoader = new HDRLoader();
-hdrLoader.load("textures/qwantani_dawn_puresky_1k.hdr", (hdr) => {
+hdrLoader.load("/textures/qwantani_dawn_puresky_1k.hdr", (hdr) => {
   hdr.mapping = THREE.EquirectangularReflectionMapping;
   scene.background = hdr;
   scene.environment = hdr;
 });
-
-// -------------------------------------
-// Mouse Cursor Particles
-// -------------------------------------
-
-let mouse = new THREE.Vector3(0, 0, 1);
-
-const PARTICLE_COUNT = 150;
-const positions = new Float32Array(PARTICLE_COUNT * 3);
-
-// initial layout
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  positions[i * 3 + 2] = 1;
-}
-
-const cursorGeometry = new THREE.BufferGeometry();
-cursorGeometry.setAttribute(
-  "position",
-  new THREE.BufferAttribute(positions, 3)
-);
-
-const cursorMaterial = new THREE.PointsMaterial({
-  color: 0xffff00,
-  size: 5
-});
-
-const cursorPoints = new THREE.Points(cursorGeometry, cursorMaterial);
-scene.add(cursorPoints);
-
-// -------------------------------------
-// Mouse Move → World Space
-// -------------------------------------
-
-function handleMouseMove(event) {
-  const ndc = new THREE.Vector3(
-    (event.clientX / window.innerWidth) * 2 - 1,
-    -(event.clientY / window.innerHeight) * 2 + 1,
-    0.5
-  );
-
-  ndc.unproject(camera);
-  const dir = ndc.sub(camera.position).normalize();
-  const distance = -camera.position.z / dir.z;
-  mouse.copy(camera.position.clone().add(dir.multiplyScalar(distance)));
-}
-
-window.addEventListener("mousemove", handleMouseMove);
 
 // -------------------------------------
 // Path
@@ -170,19 +123,6 @@ function animate() {
   camera.position.copy(point.clone().add(tangent.clone().multiplyScalar(-5)));
   camera.position.y += 3;
   camera.lookAt(point);
-
-  // cursor trail update
-  for (let i = PARTICLE_COUNT - 1; i > 0; i--) {
-    positions[i * 3]     = positions[(i - 1) * 3];
-    positions[i * 3 + 1] = positions[(i - 1) * 3 + 1];
-    positions[i * 3 + 2] = positions[(i - 1) * 3 + 2];
-  }
-
-  positions[0] = mouse.x;
-  positions[1] = mouse.y;
-  positions[2] = mouse.z;
-
-  cursorGeometry.attributes.position.needsUpdate = true;
 
   renderer.render(scene, camera);
 }
